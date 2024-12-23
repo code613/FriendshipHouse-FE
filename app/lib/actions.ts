@@ -1,22 +1,26 @@
 "use server";
 
 export async function submitPatient(
-  prevState: string | undefined,
-  formData: FormData
-) {
-    const first_name = formData.get("first_name");
-    const last_name = formData.get("last_name");   
-    console.log("First Name:", first_name);
-    console.log("Last Name:", last_name);
+  state: void | undefined,
+  payload: FormData
+): Promise<void | undefined> {
+  const first_name = payload.get("first_name");
+  const last_name = payload.get("last_name");
+  console.log("First Name:", first_name);
+  console.log("Last Name:", last_name);
 
-    const response = await fetch(process.env.PATIENTS_API, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ first_name: first_name, last_name: last_name }),
-    });
-    if (!response.ok) {
-      throw new Error("Failed to submit patient details.");
-    }
+  const apiUrl = process.env.PATIENTS_API;
+  if (!apiUrl) {
+    throw new Error("PATIENTS_API environment variable is not defined.");
+  }
+  const response = await fetch(apiUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({ first_name: first_name, last_name: last_name }),
+  });
+  if (!response.ok) {
+    throw new Error("Failed to submit patient details.");
+  }
 }

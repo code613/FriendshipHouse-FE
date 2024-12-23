@@ -1,0 +1,10 @@
+version: "3.8"
+
+services:
+  friendship-house:
+    build: .
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env
+    container_name: friendship-house
