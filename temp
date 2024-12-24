@@ -1,0 +1,35 @@
+{
+    "friendshipHouseLocation": "Cleveland",
+    "patient":{
+        "firstName":"John",
+        "lastName":"Doe",
+        "hospital":"St. Mary's",
+        "patientCondition":"Stable",
+        "visitType":{
+            "type":"Inpatient",
+            "room":"101"
+        }
+    },
+    "guests":[
+        {
+            "firstName":"Jane",
+            "lastName":"Doe",
+            "relationship":"Spouse",
+            "gender":"Female",
+            "cell":"123-456-7890",
+            "email":"a@b.com",
+            "address":{
+                "street":"Main St",
+                "houseNumber":"123",
+                "enterance":"A",
+                "city":"Cleveland",
+                "state":"OH",
+                "zip":"44101"
+            }
+        }
+    ],
+    "checkInDetails":{
+        "checkInDate":"2021-01-01",
+        "checkOutDate":"2021-01-02"
+    }
+}

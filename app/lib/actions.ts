@@ -18,7 +18,7 @@ export async function submitPatient(
     headers: {
       "Content-Type": "application/json",
     },
-    body: JSON.stringify({ first_name: first_name, last_name: last_name }),
+    body: JSON.stringify({ firstName: first_name, lastName: last_name }),
   });
   if (!response.ok) {
     throw new Error("Failed to submit patient details.");
