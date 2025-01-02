@@ -1,9 +1,12 @@
-import ReservationForm from "@/app/ui/reservation-form";
+import Link from "next/link";
 
 export default function Home() {
   return (
-      <div className="p-4">
-        <ReservationForm />
-      </div>
+    <>
+      <h1>Home</h1>
+      <Link className="text-red-500" href="/new-reservation">
+        Go to New Reservation
+      </Link>
+    </>
   );
 }
