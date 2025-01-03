@@ -5,7 +5,7 @@ import { submitReservation } from "@/app/lib/actions";
 import { useActionState } from "react";
 import PatientDetails from "./patient-details";
 import FriendshipHouseDetails from "./friendship-house-details";
-import GuestList from "./guest-list";
+import GuestList from "./guest-data/guest-list";
 import SubmitButton from "./submit-button";
 import { redirect } from "next/navigation";
 

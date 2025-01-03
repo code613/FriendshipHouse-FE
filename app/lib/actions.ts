@@ -49,7 +49,6 @@ interface TransformedData {
 
 function transformFormData(formData: FormData): TransformedData {
   const result: TransformedData = {};
-  // const guests: Guest[] = [];
 
   formData.forEach((value, key) => {
     if (key.startsWith("patient.")) {

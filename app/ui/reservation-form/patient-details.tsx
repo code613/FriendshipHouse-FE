@@ -1,6 +1,10 @@
+import { useState } from "react";
 import { lusitana } from "@/app/ui/fonts";
 
 export default function PatientDetails() {
+  const [visitType, setVisitType] = useState("");
+  const [roomNumber, setRoomNumber] = useState("");
+
   return (
     <div>
       <h2 className={`${lusitana.className} mt-6 mb-4 text-lg font-bold`}>
@@ -24,6 +28,25 @@ export default function PatientDetails() {
             required
             placeholder="Last Name"
           />
+        </div>
+        <div className="flex mb-4 space-x-4">
+          <select
+            id="visitType"
+            name="patient.visitType"
+            className="block w-full border-gray-300 rounded-md shadow-lg focus:ring-indigo-500 focus:border-indigo-500 p-3"
+            value={visitType}
+            onChange={(e) => {
+              setVisitType(e.target.value);
+              setRoomNumber("");
+            }}
+          >
+            <option value="" defaultValue={"Visit type"} disabled>
+              Visit type
+            </option>
+            <option value="Inpatient">Inpatient</option>
+            <option value="Outpatient">Outpatient</option>
+            <option value="Observation">Observation</option>
+          </select>
           <input
             className="w-full border rounded p-2"
             id="facility"
@@ -31,6 +54,17 @@ export default function PatientDetails() {
             name="patient.facility"
             required
             placeholder="Facility"
+          />
+          <input
+            className="w-full border rounded p-2"
+            id="roomNumber"
+            type="text"
+            name="patient.roomNumber"
+            required
+            placeholder="Room Number"
+            disabled={visitType !== "Inpatient"}
+            onChange={(e) => setRoomNumber(e.target.value)}
+            value={roomNumber}
           />
         </div>
       </div>

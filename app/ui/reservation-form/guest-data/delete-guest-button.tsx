@@ -1,4 +1,4 @@
-import { GarbageIcon } from "@/app/ui/garbage-icon";
+import { GarbageIcon } from "@/app/ui/reservation-form/guest-data/garbage-icon";
 
 export default function DeleteGuestButton({
   deleteGuest,
