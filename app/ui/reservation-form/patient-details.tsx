@@ -32,9 +32,10 @@ export default function PatientDetails() {
         <div className="flex mb-4 space-x-4">
           <select
             id="visitType"
-            name="patient.visitType"
+            name="patient.type"
             className="block w-full border-gray-300 rounded-md shadow-lg focus:ring-indigo-500 focus:border-indigo-500 p-3"
             value={visitType}
+            required
             onChange={(e) => {
               setVisitType(e.target.value);
               setRoomNumber("");
@@ -51,7 +52,7 @@ export default function PatientDetails() {
             className="w-full border rounded p-2"
             id="facility"
             type="text"
-            name="patient.facility"
+            name="patient.hospital"
             required
             placeholder="Facility"
           />
@@ -59,7 +60,7 @@ export default function PatientDetails() {
             className="w-full border rounded p-2"
             id="roomNumber"
             type="text"
-            name="patient.roomNumber"
+            name="patient.room"
             required
             placeholder="Room Number"
             disabled={visitType !== "Inpatient"}
@@ -67,6 +68,14 @@ export default function PatientDetails() {
             value={roomNumber}
           />
         </div>
+        <textarea
+          className="w-full border rounded p-1"
+          id="condition"
+          name="patient.patientCondition"
+          required
+          placeholder="Condition"
+          rows={2}
+        />
       </div>
     </div>
   );

@@ -1,5 +1,4 @@
 import { Accordion, AccordionItem } from "@nextui-org/accordion";
-import { MdExpandMore, MdKeyboardArrowLeft } from "react-icons/md";
 import { Button } from "@/app/ui/button";
 import { lusitana } from "@/app/ui/fonts";
 import GuestDetails from "./guest-details";
@@ -23,26 +22,21 @@ export default function GuestList() {
     if (e.key === "Enter" || e.key === " ") deleteGuest(id);
   };
 
-  const renderIndicator = (isOpen: boolean) =>
-    isOpen ? <MdExpandMore /> : <MdKeyboardArrowLeft />;
-
   return (
     <div>
       <h2 className={clsx(lusitana.className, "mt-6 mb-4 text-lg font-bold")}>
         Guests details
       </h2>
-      <Accordion showDivider={true}>
+      <Accordion>
         {guests.map((guest, index) => (
           <AccordionItem
             key={guest.id}
             keepContentMounted={true}
             textValue="Guest"
-            className="p-2 mb-2"
-            indicator={({ isOpen = false }) => renderIndicator(isOpen)}
             title={
               <div className="flex items-center justify-between text-sm space-x-8">
                 <span className="bg-blue-500 text-white rounded-full px-3 py-1 text-xs">
-                  Guest {index + 1}
+                  {index == 0 ? "Main Guest" : `Guest ${index + 1}`}
                 </span>
                 {index > 0 && (
                   <DeleteGuestButton
@@ -53,7 +47,7 @@ export default function GuestList() {
               </div>
             }
           >
-            <GuestDetails index={index}/>
+            <GuestDetails index={index} />
           </AccordionItem>
         ))}
       </Accordion>
