@@ -32,6 +32,7 @@ export default function GuestList() {
           <AccordionItem
             key={guest.id}
             keepContentMounted={true}
+            className="border-b border-gray-300"
             textValue="Guest"
             title={
               <div className="flex items-center justify-between text-sm space-x-8">

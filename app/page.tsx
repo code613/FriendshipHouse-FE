@@ -1,4 +1,3 @@
-import { RangeCalendar } from "@nextui-org/calendar";
 import Link from "next/link";
 
 export default function Home() {

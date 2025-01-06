@@ -5,10 +5,10 @@ export const FormSchema = z.object({
     patient: z.object({
       firstName: z.string(),
       lastName: z.string(),
-      hospital: z.string(),
-      patientCondition: z.string(),
-      type: z.enum(["Inpatient", "Outpatient", "Observation"]),
-      room: z.string().optional(),
+      facility: z.string(),
+      condition: z.string(),
+      visitType: z.enum(["Inpatient", "Outpatient", "Observation"]),
+      roomNumber: z.string().optional(),
     }),
     guests: z
       .array(

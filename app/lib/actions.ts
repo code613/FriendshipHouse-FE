@@ -4,6 +4,27 @@ import FormToDto from "@/app/utils/form-to-dto";
 import { FormSchema } from "@/app/schemas/form-schema";
 import { ReservationDto } from "../dtos/reservation-dto";
 
+export async function getFriendshipHouseLocations(): Promise<string[]> {
+  const apiUrl = process.env.FRIENDSHIP_HOUSE_LOCATIONS_API;
+  if (!apiUrl) {
+    throw new Error(
+      "FRIENDSHIP_HOUSE_LOCATIONS_API environment variable is not defined."
+    );
+  }
+
+  try {
+    const data = await fetch(apiUrl);
+    if (!data.ok) {
+      throw new Error("Failed to get Friendship House locations.");
+    }
+
+    return await data.json();
+  } catch (error) {
+    console.error("Error getting Friendship House locations:", error);
+    throw error;
+  }
+}
+
 export async function submitReservation(
   state: void | undefined,
   payload: FormData

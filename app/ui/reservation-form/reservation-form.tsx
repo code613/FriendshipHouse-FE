@@ -31,12 +31,12 @@ export default function ReservationForm() {
     >
       <div>
         <h1
-          className={`${lusitana.className} mb-6 text-3xl font-bold text-center`}
+          className={`${lusitana.className} mb-6 text-3xl font-bold text-center underline`}
         >
           Reservation Details
         </h1>
         <div className="space-y-4">
-          <FriendshipHouseDetails />
+          <FriendshipHouseDetails/>
           <Border />
           <PatientDetails />
           <Border />
