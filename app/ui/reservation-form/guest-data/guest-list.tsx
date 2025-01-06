@@ -3,12 +3,17 @@ import { Button } from "@/app/ui/button";
 import { lusitana } from "@/app/ui/fonts";
 import GuestDetails from "./guest-details";
 import clsx from "clsx";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteGuestButton from "./delete-guest-button";
+import { GuestDefaultValues } from "@/app/interfaces/guestDefaultValues";
 
 export default function GuestList() {
-  const [guests, setGuests] = useState([{ id: uuidv4() }]);
+  const [defualtGuest, setDefaultGuest] = useState<GuestDefaultValues>({
+    phoneNumber: "123-432-3423",
+  });
+
+  const [guests, setGuests] = useState<{ id: string }[]>([]);
 
   const addGuest = () => {
     setGuests((prev) => [...prev, { id: uuidv4() }]);
@@ -22,6 +27,11 @@ export default function GuestList() {
     if (e.key === "Enter" || e.key === " ") deleteGuest(id);
   };
 
+  useEffect(() => {
+    console.log("GuestList mounted");
+    addGuest();
+  }, []);
+
   return (
     <div>
       <h2 className={clsx(lusitana.className, "mt-6 mb-4 text-lg font-bold")}>
@@ -30,6 +40,9 @@ export default function GuestList() {
       <Accordion>
         {guests.map((guest, index) => (
           <AccordionItem
+            onPress={() => {
+              console.log("AccordionItem pressed:");
+            }}
             key={guest.id}
             keepContentMounted={true}
             className="border-b border-gray-300"
@@ -48,7 +61,7 @@ export default function GuestList() {
               </div>
             }
           >
-            <GuestDetails index={index} />
+            <GuestDetails index={index} defaultValues={defualtGuest} />
           </AccordionItem>
         ))}
       </Accordion>

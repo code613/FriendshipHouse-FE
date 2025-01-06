@@ -1,7 +1,7 @@
 import { useState } from "react";
 
-export default function PhoneNumber({ inputName }: { inputName: string }) {
-  const [phoneValue, setPhoneValue] = useState("");
+export default function PhoneNumber({ inputName, defaultPhone }: { inputName: string, defaultPhone : string }) {
+  const [phoneValue, setPhoneValue] = useState(defaultPhone);
 
   const formatPhoneNumber = (input: string) => {
     // Remove all non-digit characters
