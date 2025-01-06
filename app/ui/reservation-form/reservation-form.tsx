@@ -3,13 +3,13 @@
 import { lusitana } from "@/app/ui/fonts";
 import { submitReservation } from "@/app/lib/actions";
 import { useActionState } from "react";
-import PatientDetails from "./patient-details";
+import PatientDetails from "./patient-data/patient-details";
 import FriendshipHouseDetails from "./friendship-house-details";
 import GuestList from "./guest-data/guest-list";
 import SubmitButton from "./submit-button";
 import { redirect } from "next/navigation";
 
-export default function ReservationForm() {
+export default function ReservationForm({friendshipHouseLocations}: {friendshipHouseLocations: string[]}) {
   const [errorMessage, formAction, isPending] = useActionState(
     submitReservation,
     undefined
@@ -36,7 +36,7 @@ export default function ReservationForm() {
           Reservation Details
         </h1>
         <div className="space-y-4">
-          <FriendshipHouseDetails/>
+          <FriendshipHouseDetails locations={friendshipHouseLocations}/>
           <Border />
           <PatientDetails />
           <Border />

@@ -1,19 +1,6 @@
-import { getFriendshipHouseLocations } from "@/app/lib/actions";
 import { lusitana } from "@/app/ui/fonts";
-import { useEffect, useState } from "react";
 
-export default function FriendshipHouseDetails() {
-  const [data, setData] = useState<string[]>([]);
-
-  useEffect(() => {
-    const updateData = async () => {
-      const friendshipHouseLocations = await getFriendshipHouseLocations();
-      setData(friendshipHouseLocations);
-    };
-
-    updateData();
-  }, []);
-
+export default function FriendshipHouseDetails({locations}: {locations: string[]}) {
   return (
     <>
       <div>
@@ -25,7 +12,7 @@ export default function FriendshipHouseDetails() {
           name="friendshipHouseLocation"
           className="block w-full border rounded p-2"
         >
-          {data.map((location, index) => (
+          {locations.map((location, index) => (
             <option key={index} value={location}>
               {location}
             </option>

@@ -1,5 +1,6 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ReservationDto } from "../dtos/reservation-dto";
+import { getStateCode } from "./state-data";
 
 export default function FormToDto(formData: FormData): ReservationDto {
   const result: ReservationDto = {};
@@ -16,7 +17,13 @@ export default function FormToDto(formData: FormData): ReservationDto {
       const guestIndex = parseInt(key.split(".")[1]);
       result.guests = result.guests || [];
       result.guests[guestIndex] = result.guests[guestIndex] || {};
-      (result.guests[guestIndex] as any)[field] = value;
+      if (field === "state") {
+        (result.guests[guestIndex] as any)[field] = getStateCode(
+          value as string
+        );
+      } else {
+        (result.guests[guestIndex] as any)[field] = value;
+      }
     }
   });
 

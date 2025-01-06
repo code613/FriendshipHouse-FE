@@ -1,9 +1,12 @@
 import { useState } from "react";
 import { lusitana } from "@/app/ui/fonts";
+import clsx from "clsx";
 
 export default function PatientDetails() {
   const [visitType, setVisitType] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
+
+  const visitTypes = ["Inpatient", "Outpatient", "Observation"];
 
   return (
     <div>
@@ -33,7 +36,12 @@ export default function PatientDetails() {
           <select
             id="visitType"
             name="patient.visitType"
-            className="block w-full border rounded p-2"
+            className={
+              clsx(
+              "block w-full border rounded p-2",
+              "invalid:text-gray-400",
+              "valid:text-gray-900"
+            )}
             value={visitType}
             required
             onChange={(e) => {
@@ -41,12 +49,14 @@ export default function PatientDetails() {
               setRoomNumber("");
             }}
           >
-            <option value="" defaultValue={"Visit type"} disabled>
+            <option value="" defaultValue={""} disabled hidden>
               Visit type
             </option>
-            <option value="Inpatient">Inpatient</option>
-            <option value="Outpatient">Outpatient</option>
-            <option value="Observation">Observation</option>
+            {visitTypes.map((type) => (
+              <option key={type} value={type} className="text-gray-900">
+                {type}
+              </option>
+            ))}
           </select>
           <input
             className="w-full border rounded p-2"
@@ -57,7 +67,7 @@ export default function PatientDetails() {
             placeholder="Facility"
           />
           <input
-            className="w-full border rounded p-2"
+            className={clsx("w-full border rounded p-2", "disabled:bg-gray-200" )}
             id="roomNumber"
             type="text"
             name="patient.roomNumber"
