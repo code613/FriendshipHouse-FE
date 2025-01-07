@@ -1,7 +1,16 @@
 import { useState } from "react";
 
-export default function GuestDates({ index }: { index: number }) {
-  const [checkInDate, setCheckInDate] = useState("");
+export default function GuestDates({
+  index,
+  defaultCheckIn,
+  defaultCheckOut,
+}: {
+  index: number;
+  defaultCheckIn: string;
+  defaultCheckOut: string;
+}) {
+  const [checkInDate, setCheckInDate] = useState(defaultCheckIn);
+  const [checkOutDate, setCheckOutDate] = useState(defaultCheckOut);
 
   return (
     <>
@@ -14,7 +23,10 @@ export default function GuestDates({ index }: { index: number }) {
             className="w-full border rounded p-2"
             required
             value={checkInDate}
-            onChange={(e) => setCheckInDate(e.target.value)}
+            onChange={(e) => {
+              setCheckInDate(e.target.value);
+              setCheckOutDate("");
+            }}
           />
         </div>
         <div>
@@ -25,6 +37,8 @@ export default function GuestDates({ index }: { index: number }) {
             className="w-full border rounded p-2"
             required
             min={checkInDate}
+            value={checkOutDate}
+            onChange={(e) => setCheckOutDate(e.target.value)}
           />
         </div>
       </div>

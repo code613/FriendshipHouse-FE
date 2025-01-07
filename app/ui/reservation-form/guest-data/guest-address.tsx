@@ -2,8 +2,24 @@ import { getStates } from "@/app/utils/state-data";
 import clsx from "clsx";
 import { useState } from "react";
 
-export default function GuestAddress({ index }: { index: number }) {
-  const [state, setState] = useState("");
+export default function GuestAddress({
+  index,
+  defaultState,
+  defaultCity,
+  defaultStreet,
+  defaultHouseNumber,
+  defaultEntrance,
+  defaultZip,
+}: {
+  index: number;
+  defaultState: string;
+  defaultCity: string;
+  defaultStreet: string;
+  defaultHouseNumber: string;
+  defaultEntrance: string;
+  defaultZip: string;
+}) {
+  const [state, setState] = useState(defaultState);
   const states = getStates();
   return (
     <>
@@ -36,6 +52,7 @@ export default function GuestAddress({ index }: { index: number }) {
           placeholder="City"
           className="border rounded p-2"
           required
+          defaultValue={defaultCity}
         />
         <input
           type="text"
@@ -43,6 +60,7 @@ export default function GuestAddress({ index }: { index: number }) {
           placeholder="Street"
           className="border rounded p-2"
           required
+          defaultValue={defaultStreet}
         />
         <input
           type="text"
@@ -50,12 +68,14 @@ export default function GuestAddress({ index }: { index: number }) {
           placeholder="House Number"
           className="border rounded p-2"
           required
+          defaultValue={defaultHouseNumber}
         />
         <input
           type="text"
           name={`guest.${index}.entrance`}
           placeholder="Entrance"
           className="border rounded p-2"
+          defaultValue={defaultEntrance}
         />
         <input
           type="text"
@@ -65,6 +85,7 @@ export default function GuestAddress({ index }: { index: number }) {
           pattern="\d{5}"
           title="Please enter exactly 5 digits"
           required
+          defaultValue={defaultZip}
         />
       </div>
     </>

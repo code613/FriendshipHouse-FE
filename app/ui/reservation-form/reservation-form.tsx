@@ -9,7 +9,11 @@ import GuestList from "./guest-data/guest-list";
 import SubmitButton from "./submit-button";
 import { redirect } from "next/navigation";
 
-export default function ReservationForm({friendshipHouseLocations}: {friendshipHouseLocations: string[]}) {
+export default function ReservationForm({
+  friendshipHouseLocations,
+}: {
+  friendshipHouseLocations: string[];
+}) {
   const [errorMessage, formAction, isPending] = useActionState(
     submitReservation,
     undefined
@@ -26,6 +30,7 @@ export default function ReservationForm({friendshipHouseLocations}: {friendshipH
 
   return (
     <form
+      id="reservation-form"
       action={onSubmit}
       className="space-y-6 text-gray-900 max-w-2xl mx-auto p-6 sm:p-8 bg-white rounded-lg shadow-lg"
     >
@@ -36,7 +41,7 @@ export default function ReservationForm({friendshipHouseLocations}: {friendshipH
           Reservation Details
         </h1>
         <div className="space-y-4">
-          <FriendshipHouseDetails locations={friendshipHouseLocations}/>
+          <FriendshipHouseDetails locations={friendshipHouseLocations} />
           <Border />
           <PatientDetails />
           <Border />

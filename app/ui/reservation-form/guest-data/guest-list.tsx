@@ -6,12 +6,53 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteGuestButton from "./delete-guest-button";
+import { DefaultGuestData } from "./default-guest-data";
 
 export default function GuestList() {
-
   const [guests, setGuests] = useState<{ id: string }[]>([]);
+  const [defaultGuestData, setDefualtGuestData] = useState<DefaultGuestData>({
+    phone: "",
+    email: "",
+    state: "",
+    city: "",
+    street: "",
+    houseNumber: "",
+    entrance: "",
+    zip: "",
+    checkIn: "",
+    checkOut: "",
+  });
 
   const addGuest = () => {
+    const form = document.getElementById(
+      "reservation-form"
+    ) as HTMLFormElement | null;
+    if (form) {
+      const formData = new FormData(form);
+      const phone = formData.get("guest.0.cell")?.toString();
+      const email = formData.get("guest.0.email")?.toString();
+      const state = formData.get("guest.0.state")?.toString();
+      const city = formData.get("guest.0.city")?.toString();
+      const street = formData.get("guest.0.street")?.toString();
+      const houseNumber = formData.get("guest.0.houseNumber")?.toString();
+      const entrance = formData.get("guest.0.entrance")?.toString();
+      const zip = formData.get("guest.0.zip")?.toString();
+      const checkIn = formData.get("guest.0.checkInDate")?.toString();
+      const checkOut = formData.get("guest.0.checkOutDate")?.toString();
+
+      setDefualtGuestData({
+        phone: phone,
+        email: email,
+        state: state,
+        city: city,
+        street: street,
+        houseNumber: houseNumber,
+        entrance: entrance,
+        zip: zip,
+        checkIn: checkIn,
+        checkOut: checkOut,
+      });
+    }
     setGuests((prev) => [...prev, { id: uuidv4() }]);
   };
 
@@ -24,7 +65,6 @@ export default function GuestList() {
   };
 
   useEffect(() => {
-    console.log("GuestList mounted");
     addGuest();
   }, []);
 
@@ -36,9 +76,6 @@ export default function GuestList() {
       <Accordion>
         {guests.map((guest, index) => (
           <AccordionItem
-            onPress={() => {
-              console.log("AccordionItem pressed:");
-            }}
             key={guest.id}
             keepContentMounted={true}
             className="border-b border-gray-300"
@@ -46,7 +83,7 @@ export default function GuestList() {
             title={
               <div className="flex items-center justify-between text-sm space-x-8">
                 <span className="bg-blue-500 text-white rounded-full px-3 py-1 text-xs">
-                  {index == 0 ? "Main Guest" : `Guest ${index + 1}`}
+                  {index === 0 ? "Main Guest" : `Guest ${index + 1}`}
                 </span>
                 {index > 0 && (
                   <DeleteGuestButton
@@ -57,7 +94,7 @@ export default function GuestList() {
               </div>
             }
           >
-            <GuestDetails index={index}/>
+            <GuestDetails index={index} defaultGuestData={defaultGuestData} />
           </AccordionItem>
         ))}
       </Accordion>
