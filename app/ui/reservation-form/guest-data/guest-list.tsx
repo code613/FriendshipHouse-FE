@@ -6,12 +6,8 @@ import clsx from "clsx";
 import { useEffect, useState } from "react";
 import { v4 as uuidv4 } from "uuid";
 import DeleteGuestButton from "./delete-guest-button";
-import { GuestDefaultValues } from "@/app/interfaces/guestDefaultValues";
 
 export default function GuestList() {
-  const [defualtGuest, setDefaultGuest] = useState<GuestDefaultValues>({
-    phoneNumber: "123-432-3423",
-  });
 
   const [guests, setGuests] = useState<{ id: string }[]>([]);
 
@@ -61,7 +57,7 @@ export default function GuestList() {
               </div>
             }
           >
-            <GuestDetails index={index} defaultValues={defualtGuest} />
+            <GuestDetails index={index}/>
           </AccordionItem>
         ))}
       </Accordion>

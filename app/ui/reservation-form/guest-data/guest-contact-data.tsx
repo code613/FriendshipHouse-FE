@@ -2,17 +2,14 @@ import PhoneNumber from "../phone-number";
 
 export default function GuestContactData({
   index,
-  defaultPhone,
 }: {
   index: number;
-  defaultPhone: string;
 }) {
   return (
     <>
       <div className="flex mb-4 space-x-4">
         <PhoneNumber
           inputName={`guest.${index}.cell`}
-          defaultPhone={defaultPhone}
         />
         <input
           type="email"
