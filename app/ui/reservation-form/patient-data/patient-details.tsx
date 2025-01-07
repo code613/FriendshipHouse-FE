@@ -2,6 +2,7 @@ import { lusitana } from "@/app/ui/fonts";
 import PatientName from "./patient-name";
 import VisitData from "./visit-data";
 import PatientCondition from "./patient-condition";
+import DragAndDrop from "../drag-and-drop";
 
 export default function PatientDetails() {
   return (
@@ -13,6 +14,7 @@ export default function PatientDetails() {
         <PatientName />
         <VisitData />
         <PatientCondition />
+        <DragAndDrop name="patient.proofOfStay" wantedFile="proof of stay" />
       </div>
     </div>
   );
