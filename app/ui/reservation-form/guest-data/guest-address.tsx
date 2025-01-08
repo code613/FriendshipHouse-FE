@@ -1,6 +1,7 @@
 import { getStates } from "@/app/utils/state-data";
 import clsx from "clsx";
 import { useState } from "react";
+import AutoCompleteAddress from "../../auto-complete-address";
 
 export default function GuestAddress({
   index,
@@ -23,8 +24,10 @@ export default function GuestAddress({
   const states = getStates();
   return (
     <>
-      <h2 className="mt-6 mb-4 text-lg font-bold">Guest address</h2>
-      <div className="grid grid-cols-2 gap-4 mb-4">
+      <h2 className="mt-6 mb-4 text-lg font-bold">Address</h2>
+      <AutoCompleteAddress />
+
+      {/* <div className="grid grid-cols-2 gap-4 mb-4">
         <select
           id={`guest.${index}.state`}
           name={`guest.${index}.state`}
@@ -87,7 +90,7 @@ export default function GuestAddress({
           required
           defaultValue={defaultZip}
         />
-      </div>
+      </div> */}
     </>
   );
 }

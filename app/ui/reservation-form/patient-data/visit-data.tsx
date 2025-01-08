@@ -1,5 +1,7 @@
 import clsx from "clsx";
 import { useState } from "react";
+import Combobox from "react-widgets/Combobox";
+import "./visit-data.css";
 
 export default function VisitData() {
   const [visitType, setVisitType] = useState("");
@@ -12,17 +14,17 @@ export default function VisitData() {
         <select
           id="visitType"
           name="patient.visitType"
-          className={clsx(
-            "block w-full border rounded p-2",
-            "invalid:text-gray-400",
-            "valid:text-gray-900"
-          )}
           value={visitType}
           required
           onChange={(e) => {
             setVisitType(e.target.value);
             setRoomNumber("");
           }}
+          className={clsx(
+            "w-full border rounded p-2",
+            "invalid:text-gray-400",
+            "valid:text-gray-900"
+          )}
         >
           <option value="" defaultValue={""} disabled hidden>
             Visit type
@@ -33,16 +35,22 @@ export default function VisitData() {
             </option>
           ))}
         </select>
-        <input
-          className="w-full border rounded p-2"
-          id="facility"
-          type="text"
-          name="patient.facility"
-          required
+
+        <Combobox
           placeholder="Facility"
+          data={["hospital A", "hospital B", "facility C", "D"]}
+          dataKey="place_id"
+          name="patient.facility"
+          id="facility"
+          textField="description"
+          style={{ border: "red" }}
+          focusFirstItem={true}
+          hideEmptyPopup
+          hideCaret
+          className="w-full border-none "
         />
+
         <input
-          className={clsx("w-full border rounded p-2", "disabled:bg-gray-200")}
           id="roomNumber"
           type="text"
           name="patient.roomNumber"
@@ -51,6 +59,10 @@ export default function VisitData() {
           disabled={visitType !== "Inpatient"}
           onChange={(e) => setRoomNumber(e.target.value)}
           value={roomNumber}
+          className={clsx(
+            "w-full border rounded p-2",
+            "disabled:bg-gray-200"
+          )}
         />
       </div>
     </>
