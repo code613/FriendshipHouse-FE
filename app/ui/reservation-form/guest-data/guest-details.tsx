@@ -1,3 +1,4 @@
+import DragAndDrop from "../drag-and-drop";
 import { DefaultGuestData } from "./default-guest-data";
 import GuestAddress from "./guest-address";
 import GuestContactData from "./guest-contact-data";
@@ -34,6 +35,7 @@ export default function GuestDetails({
           defaultCheckIn={defaultGuestData.checkIn || ""}
           defaultCheckOut={defaultGuestData.checkOut || ""}
         />
+        <DragAndDrop name={`guest.${index}.photoId`} wantedFile="photo id"/>
       </div>
     </>
   );

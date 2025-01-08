@@ -8,6 +8,7 @@ import FriendshipHouseDetails from "./friendship-house-details";
 import GuestList from "./guest-data/guest-list";
 import SubmitButton from "./submit-button";
 import { redirect } from "next/navigation";
+import Guidelines from "./guidelines";
 
 export default function ReservationForm({
   friendshipHouseLocations,
@@ -47,6 +48,7 @@ export default function ReservationForm({
           <Border />
           <GuestList />
           <Border />
+          <Guidelines />
           <SubmitButton isPending={isPending} errorMessage={errorMessage} />
         </div>
       </div>

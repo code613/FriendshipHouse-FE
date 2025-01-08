@@ -6,7 +6,7 @@ export default function PatientCondition() {
         id="condition"
         name="patient.condition"
         required
-        placeholder="Condition"
+        placeholder="Reason for stay"
         rows={2}
       />
     </>
