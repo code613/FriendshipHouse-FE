@@ -23,6 +23,7 @@ export default function GuestDates({
             className="w-full border rounded p-2"
             required
             value={checkInDate}
+            min={new Date().toISOString().split("T")[0]}
             onChange={(e) => {
               setCheckInDate(e.target.value);
               setCheckOutDate("");

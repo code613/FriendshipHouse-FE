@@ -19,3 +19,19 @@ body {
   background: var(--background);
   font-family: Arial, Helvetica, sans-serif;
 }
+
+.rw-widget-picker.rw-hide-caret {
+  border-color: #e5e7eb;
+  box-shadow: none;
+  height: 42px;
+  outline: none;
+}
+
+select:focus,
+textarea:focus,
+input:focus {
+  outline: none;
+  border-color: #80bdff;
+  box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.25);
+  transition: box-shadow 0.15s ease-in-out;
+}

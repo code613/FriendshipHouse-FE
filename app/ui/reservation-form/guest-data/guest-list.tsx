@@ -17,7 +17,6 @@ export default function GuestList() {
     city: "",
     street: "",
     houseNumber: "",
-    entrance: "",
     zip: "",
     checkIn: "",
     checkOut: "",
@@ -31,11 +30,11 @@ export default function GuestList() {
       const formData = new FormData(form);
       const phone = formData.get("guest.0.cell")?.toString();
       const email = formData.get("guest.0.email")?.toString();
+      const country = formData.get("guest.0.country")?.toString();
       const state = formData.get("guest.0.state")?.toString();
       const city = formData.get("guest.0.city")?.toString();
       const street = formData.get("guest.0.street")?.toString();
       const houseNumber = formData.get("guest.0.houseNumber")?.toString();
-      const entrance = formData.get("guest.0.entrance")?.toString();
       const zip = formData.get("guest.0.zip")?.toString();
       const checkIn = formData.get("guest.0.checkInDate")?.toString();
       const checkOut = formData.get("guest.0.checkOutDate")?.toString();
@@ -43,11 +42,11 @@ export default function GuestList() {
       setDefualtGuestData({
         phone: phone,
         email: email,
+        country: country,
         state: state,
         city: city,
         street: street,
         houseNumber: houseNumber,
-        entrance: entrance,
         zip: zip,
         checkIn: checkIn,
         checkOut: checkOut,

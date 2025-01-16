@@ -1,13 +1,15 @@
 import { lusitana } from "@/app/ui/fonts";
 import clsx from "clsx";
-import { useState } from "react";
 
 export default function FriendshipHouseDetails({
   locations,
+  selectedLocation,
+  onSelectLocation
 }: {
   locations: string[];
+  selectedLocation: string | undefined;
+  onSelectLocation: (name: string) => void 
 }) {
-  const [location, setLocation] = useState("");
 
   return (
     <>
@@ -23,10 +25,10 @@ export default function FriendshipHouseDetails({
             "invalid:text-gray-400",
             "valid:text-gray-900"
           )}
-          value={location}
+          value={selectedLocation}
           required
           onChange={(e) => {
-            setLocation(e.target.value);
+            onSelectLocation(e.target.value);
           }}
         >
           <option value="" defaultValue={""} disabled hidden>

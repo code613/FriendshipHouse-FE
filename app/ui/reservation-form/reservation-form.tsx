@@ -2,19 +2,25 @@
 
 import { lusitana } from "@/app/ui/fonts";
 import { submitReservation } from "@/app/lib/actions";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import PatientDetails from "./patient-data/patient-details";
 import FriendshipHouseDetails from "./friendship-house-details";
 import GuestList from "./guest-data/guest-list";
 import SubmitButton from "./submit-button";
 import { redirect } from "next/navigation";
 import Guidelines from "./guidelines";
+import { FriendshipHouseLocation } from "@/app/interfaces/frienship-house-location";
 
 export default function ReservationForm({
   friendshipHouseLocations,
 }: {
-  friendshipHouseLocations: string[];
+  friendshipHouseLocations: FriendshipHouseLocation[];
 }) {
+  const [location, setLocation] = useState<FriendshipHouseLocation | undefined>({
+    name: "",
+    subLocations: [],
+  });
+
   const [errorMessage, formAction, isPending] = useActionState(
     submitReservation,
     undefined
@@ -42,9 +48,22 @@ export default function ReservationForm({
           Reservation Details
         </h1>
         <div className="space-y-4">
-          <FriendshipHouseDetails locations={friendshipHouseLocations} />
+          <FriendshipHouseDetails
+            locations={friendshipHouseLocations.map(
+              (location) => location.name
+            )}
+            selectedLocation={location?.name}
+            onSelectLocation={(val) => {
+              const current = friendshipHouseLocations.find(
+                (l) => l.name === val
+              );
+              setLocation(current);
+            }}
+          />
           <Border />
-          <PatientDetails />
+          <PatientDetails
+            recommendedFacilities={location?.subLocations.map((f) => f.name)}
+          />
           <Border />
           <GuestList />
           <Border />

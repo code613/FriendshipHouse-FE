@@ -1,19 +1,16 @@
 "use server";
+import axios from "axios";
 
-import FormToDto from "@/app/utils/form-to-dto";
-import { FormSchema } from "@/app/schemas/form-schema";
 import { ReservationDto } from "../dtos/reservation-dto";
+import { FriendshipHouseLocation } from "../interfaces/frienship-house-location";
+import { FormSchema } from "../schemas/form-schema";
+import FormToDto from "../utils/form-to-dto";
 
-export async function getFriendshipHouseLocations(): Promise<string[]> {
-  const apiUrl = process.env.FRIENDSHIP_HOUSE_LOCATIONS_API;
-  if (!apiUrl) {
-    throw new Error(
-      "FRIENDSHIP_HOUSE_LOCATIONS_API environment variable is not defined."
-    );
-  }
-
+export async function getFriendshipHouseLocations(): Promise<
+  FriendshipHouseLocation[]
+> {
   try {
-    const data = await fetch(apiUrl);
+    const data = await fetch(process.env.FRIENDSHIP_HOUSE_LOCATIONS_API!);
     if (!data.ok) {
       throw new Error("Failed to get Friendship House locations.");
     }
@@ -29,22 +26,52 @@ export async function submitReservation(
   state: void | undefined,
   payload: FormData
 ): Promise<void | undefined> {
+  console.log(payload);
   const reservationDto = FormToDto(payload);
   console.log("Result:", JSON.stringify(reservationDto, null, 2));
   FormSchema.parse(reservationDto);
 
-  const apiUrl = process.env.PATIENTS_API;
-  if (!apiUrl) {
-    throw new Error("PATIENTS_API environment variable is not defined.");
+  const outboundFormData = new FormData();
+
+  const jsonBlob = new Blob([JSON.stringify(reservationDto)], {
+    type: "application/json",
+  });
+
+  outboundFormData.append("request", jsonBlob);
+
+  const proofOfStay = payload.get("proofOfStay") as File | null;
+  if (proofOfStay) {
+    outboundFormData.append("patientFile", proofOfStay);
   }
 
-  try {
-    const data = await postToApi(apiUrl, reservationDto);
-    console.log("API Response:", JSON.stringify(data));
-  } catch (error) {
-    console.error("Error submitting reservation:", error);
-    throw error;
+  const guestFiles: File[] = [];
+
+  for (let i = 0; payload.has(`guest.${i}.photoId`); i++) {
+    const guestPhotoId = payload.get(`guest.${i}.photoId`) as File | null;
+    if (guestPhotoId) {
+      guestFiles.push(guestPhotoId);
+    }
   }
+
+  guestFiles.forEach((file) => {
+    outboundFormData.append("guestFiles", file);
+  });
+
+  const config = {
+    method: "post",
+    maxBodyLength: Infinity,
+    url: process.env.PATIENTS_API,
+    data: outboundFormData,
+  };
+
+  axios
+    .request(config)
+    .then((response) => {
+      console.log(JSON.stringify(response.data));
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 }
 
 async function postToApi(apiUrl: string, reservationDto: ReservationDto) {

@@ -23,11 +23,11 @@ export default function GuestDetails({
         />
         <GuestAddress
           index={index}
+          defaultCountry={defaultGuestData.country || ""}
           defaultState={defaultGuestData.state || ""}
           defaultCity={defaultGuestData.city || ""}
           defaultStreet={defaultGuestData.street || ""}
           defaultHouseNumber={defaultGuestData.houseNumber || ""}
-          defaultEntrance={defaultGuestData.entrance || ""}
           defaultZip={defaultGuestData.zip || ""}
         />
         <GuestDates

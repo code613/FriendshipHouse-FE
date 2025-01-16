@@ -1,9 +1,12 @@
 import clsx from "clsx";
 import { useState } from "react";
 import Combobox from "react-widgets/Combobox";
-import "./visit-data.css";
 
-export default function VisitData() {
+export default function VisitData({
+  recommendedFacilities,
+}: {
+  recommendedFacilities: string[] | undefined;
+}) {
   const [visitType, setVisitType] = useState("");
   const [roomNumber, setRoomNumber] = useState("");
   const visitTypes = ["Inpatient", "Outpatient", "Observation"];
@@ -38,7 +41,7 @@ export default function VisitData() {
 
         <Combobox
           placeholder="Facility"
-          data={["hospital A", "hospital B", "facility C", "D"]}
+          data={recommendedFacilities}
           dataKey="place_id"
           name="patient.facility"
           id="facility"
@@ -59,10 +62,7 @@ export default function VisitData() {
           disabled={visitType !== "Inpatient"}
           onChange={(e) => setRoomNumber(e.target.value)}
           value={roomNumber}
-          className={clsx(
-            "w-full border rounded p-2",
-            "disabled:bg-gray-200"
-          )}
+          className={clsx("w-full border rounded p-2", "disabled:bg-gray-200")}
         />
       </div>
     </>

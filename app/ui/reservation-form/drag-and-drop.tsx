@@ -35,7 +35,7 @@ export default function DragAndDrop({
           isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"
         }`}
       >
-        <input {...getInputProps()} name={name} />
+        <input {...getInputProps()} name={name} required/>
         {isDragActive ? (
           <p className="text-blue-500">Drop the file here...</p>
         ) : (

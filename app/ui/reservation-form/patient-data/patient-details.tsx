@@ -4,7 +4,11 @@ import VisitData from "./visit-data";
 import PatientCondition from "./patient-condition";
 import DragAndDrop from "../drag-and-drop";
 
-export default function PatientDetails() {
+export default function PatientDetails({
+  recommendedFacilities
+}: {
+  recommendedFacilities: string[] | undefined;
+}) {
   return (
     <div>
       <h2 className={`${lusitana.className} mt-6 mb-4 text-lg font-bold`}>
@@ -12,9 +16,9 @@ export default function PatientDetails() {
       </h2>
       <div>
         <PatientName />
-        <VisitData />
+        <VisitData recommendedFacilities={recommendedFacilities} />
         <PatientCondition />
-        <DragAndDrop name="patient.proofOfStay" wantedFile="proof of stay" />
+        <DragAndDrop name="proofOfStay" wantedFile="proof of stay" />
       </div>
     </div>
   );
