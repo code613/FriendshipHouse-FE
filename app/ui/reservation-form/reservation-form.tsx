@@ -2,34 +2,54 @@
 
 import { lusitana } from "@/app/ui/fonts";
 import { submitReservation } from "@/app/lib/actions";
-import { useActionState, useState } from "react";
+import { useActionState, useState, startTransition } from "react";
 import PatientDetails from "./patient-data/patient-details";
 import FriendshipHouseDetails from "./friendship-house-details";
 import GuestList from "./guest-data/guest-list";
 import SubmitButton from "./submit-button";
-import { redirect } from "next/navigation";
 import Guidelines from "./guidelines";
 import { FriendshipHouseLocation } from "@/app/interfaces/frienship-house-location";
+import SubmitPopup from "./submit-popup";
 
 export default function ReservationForm({
   friendshipHouseLocations,
 }: {
   friendshipHouseLocations: FriendshipHouseLocation[];
 }) {
-  const [location, setLocation] = useState<FriendshipHouseLocation | undefined>({
-    name: "",
-    subLocations: [],
-  });
+  const [location, setLocation] = useState<FriendshipHouseLocation | undefined>(
+    {
+      name: "",
+      subLocations: [],
+    }
+  );
 
-  const [errorMessage, formAction, isPending] = useActionState(
+  const [isPopupVisible, setIsPopupVisible] = useState(false);
+
+  const [submitState, formAction, isPending] = useActionState(
     submitReservation,
     undefined
   );
 
   const onSubmit = (formData: FormData) => {
-    formAction(formData);
-    redirect("/reservation-confirmation");
+    startTransition(() => {
+      formAction(formData);
+    });
+    setIsPopupVisible(true);
   };
+
+  const onClosePopup = () => {
+    setIsPopupVisible(false);
+    if (submitState?.isSuccess) {
+      window.location.reload();
+    }
+  };
+
+  const onSelectLocation = (val:string) =>{
+    const current = friendshipHouseLocations.find(
+      (l) => l.name === val
+    );
+    setLocation(current);
+  }
 
   const Border = () => {
     return <hr className="border-gray-300" />;
@@ -38,7 +58,11 @@ export default function ReservationForm({
   return (
     <form
       id="reservation-form"
-      action={onSubmit}
+      onSubmit={(e) => {
+        e.preventDefault();
+        const formData = new FormData(e.target as HTMLFormElement);
+        onSubmit(formData);
+      }}
       className="space-y-6 text-gray-900 max-w-2xl mx-auto p-6 sm:p-8 bg-white rounded-lg shadow-lg"
     >
       <div>
@@ -53,12 +77,7 @@ export default function ReservationForm({
               (location) => location.name
             )}
             selectedLocation={location?.name}
-            onSelectLocation={(val) => {
-              const current = friendshipHouseLocations.find(
-                (l) => l.name === val
-              );
-              setLocation(current);
-            }}
+            onSelectLocation={onSelectLocation}
           />
           <Border />
           <PatientDetails
@@ -68,7 +87,15 @@ export default function ReservationForm({
           <GuestList />
           <Border />
           <Guidelines />
-          <SubmitButton isPending={isPending} errorMessage={errorMessage} />
+          <SubmitButton isPending={isPending} />
+
+          {isPopupVisible && submitState && !isPending &&(
+            <SubmitPopup
+              isSuccess={submitState.isSuccess}
+              message={submitState.message}
+              onClose={onClosePopup}
+            />
+          )}
         </div>
       </div>
     </form>
