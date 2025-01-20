@@ -1,4 +1,4 @@
-import React, { useCallback, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import Image from "next/image";
 import { useDropzone } from "react-dropzone";
 
@@ -9,16 +9,20 @@ export default function DragAndDrop({
   name: string;
   wantedFile: string;
 }) {
-  const [file, setFile] = useState<File | null>(null); // State to store the uploaded file
+  const [file, setFile] = useState<File | null>(null);
+  const [fileUrl, setFileUrl] = useState<string | null>(null);
 
   const onDrop = useCallback((acceptedFiles: File[]) => {
     if (acceptedFiles.length > 0) {
-      setFile(acceptedFiles[0]); // Store the first file
+      const f = acceptedFiles[0];
+      setFile(f); // Store the first file
+      setFileUrl(URL.createObjectURL(f));
     }
   }, []);
 
   const deleteFile = () => {
     setFile(null); // Clear the file
+    setFileUrl(null);
   };
 
   const { getRootProps, getInputProps, isDragActive } = useDropzone({
@@ -26,6 +30,20 @@ export default function DragAndDrop({
     accept: { "application/pdf": [], "image/*": [] }, // Customize accepted file types
     multiple: false, // Allow only a single file
   });
+
+  useEffect(() => {
+    const inputElement = document.getElementById(
+      name
+    ) as HTMLInputElement | null;
+
+    if (inputElement) {
+      if (file === null) {
+        inputElement.setCustomValidity("Please select a file.");
+      } else {
+        inputElement.setCustomValidity("");
+      }
+    }
+  }, [name, file]);
 
   return (
     <div className="space-y-4">
@@ -35,7 +53,7 @@ export default function DragAndDrop({
           isDragActive ? "border-blue-500 bg-blue-50" : "border-gray-300"
         }`}
       >
-        <input {...getInputProps()} name={name} required/>
+        <input {...getInputProps()} id={name} name={name} required />
         {isDragActive ? (
           <p className="text-blue-500">Drop the file here...</p>
         ) : (
@@ -48,11 +66,11 @@ export default function DragAndDrop({
         </p>
       </div>
 
-      {file && (
+      {file && fileUrl && (
         <div className="mt-4 p-4 bg-gray-100 rounded-lg text-sm text-gray-700 flex items-center space-x-4">
           {file.type.startsWith("image/") ? (
             <Image
-              src={URL.createObjectURL(file)}
+              src={fileUrl}
               alt="Preview"
               width={48}
               height={48}
