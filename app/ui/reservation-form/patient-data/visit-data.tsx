@@ -40,6 +40,7 @@ export default function VisitData({
         </select>
 
         <Combobox
+          inputProps={{required:true}}
           placeholder="Facility"
           data={recommendedFacilities}
           dataKey="place_id"

@@ -3,6 +3,7 @@ import { getStates } from "@/app/utils/state-data";
 import clsx from "clsx";
 import { useState } from "react";
 import AutoCompleteAddress from "../../auto-complete-address";
+import Combobox from "react-widgets/Combobox";
 
 export default function GuestAddress({
   index,
@@ -31,7 +32,7 @@ export default function GuestAddress({
   });
 
   const states = getStates();
-  const countries = ["United States", "Israel", "France"];
+  const countries = ["United States", "Israel", "France", "United Kingdom"];
   return (
     <>
       <h2 className="mt-6 mb-4 text-lg font-bold">Address</h2>
@@ -90,7 +91,29 @@ export default function GuestAddress({
             </option>
           ))}
         </select>
-        <select
+        <Combobox
+          inputProps={{required:true}}
+          placeholder="Country"
+          data={countries}
+          // dataKey={`guest.${index}.country`}
+          name={`guest.${index}.country`}
+          id={`guest.${index}.country`}
+          textField="description"
+          style={{ border: "red" }}
+          focusFirstItem={true}
+          hideEmptyPopup
+          hideCaret
+          className="w-full border-none"
+          value={address?.country || ""}
+          onChange={(country) => {
+            setAddress((prevAddress) => ({
+              ...prevAddress,
+              country,
+              state: country !== "United States" ? "" : prevAddress.state,
+            }));
+          }}
+        />
+        {/* <select
           id={`guest.${index}.country`}
           name={`guest.${index}.country`}
           className={clsx(
@@ -117,7 +140,7 @@ export default function GuestAddress({
               {country}
             </option>
           ))}
-        </select>
+        </select> */}
         <input
           type="text"
           name={`guest.${index}.zip`}
@@ -127,6 +150,7 @@ export default function GuestAddress({
           title="Please enter exactly 5 digits"
           value={address?.zip || ""}
           onChange={(e) => setAddress({ ...address, zip: e.target.value })}
+          required
         />
       </div>
     </>
